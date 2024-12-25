@@ -10,14 +10,15 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.mindand.presentation.gameScreen.GameScreen
 import com.example.mindand.presentation.gameScreen.utils.selectRandomColors
 import com.example.mindand.presentation.mainScreen.StartScreen
-import com.example.mindand.presentation.scoresScreen.ProfileScreen
+import com.example.mindand.presentation.scoresScreen.ScoreScreen
 
 import com.example.mindand.ui.theme.MindAndTheme
 
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
 fun MyApp() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.GameScreen.path) {
+    NavHost(navController = navController, startDestination = Screen.StartScreen.path) {
         composable(
             Screen.StartScreen.path,
             enterTransition = {
@@ -53,7 +54,7 @@ fun MyApp() {
             }
         ) { StartScreen(navController) }
         composable(
-            Screen.ProfileScreen().path,
+            Screen.ProfileScreen.path,
             enterTransition = {
                 fadeIn() + slideIntoContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Left,
@@ -67,12 +68,15 @@ fun MyApp() {
                 )
             }
         ) { backStackEntry ->
-            val name = backStackEntry.arguments?.getString(Screen.ProfileScreen().name) ?: ""
-            val imageUri = backStackEntry.arguments?.getString(Screen.ProfileScreen().imageUri)
-            ProfileScreen(navController, name, imageUri)
+
+            ScoreScreen(navController)
         }
         composable(
-            Screen.GameScreen.path,
+            Screen.GameScreen.path+"/{playerId}/{numberOfColors}",
+            arguments = listOf(
+                navArgument("playerId") {type = NavType.LongType},
+                navArgument("numberOfColors") {type = NavType.LongType}
+            ),
             enterTransition = {
                 fadeIn() + slideIntoContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Left,
@@ -85,23 +89,18 @@ fun MyApp() {
                     animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing)
                 )
             }
-        ) { GameScreen(
-            availableColors = listOf(Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Magenta, Color.Cyan),
-            secretColors = selectRandomColors(listOf(Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Magenta, Color.Cyan))) {
-            // Handle game end
-        } }
+        ) {backStackEntry ->
+            val playerId = backStackEntry.arguments?.getLong("playerId") ?: 0L
+            val numberOfColors = backStackEntry.arguments?.getLong("numberOfColors") ?: 6
+            GameScreen(
+                navController,
+                playerId = playerId,
+                numberOfColors = numberOfColors)
+        }
     }
 }
 
 
-@Preview
-@Composable
-fun ProfileScreenInitialPreview() {
-    MindAndTheme {
-        val navController = rememberNavController()
-        ProfileScreen(navController = navController, name = "Radek", imageUri = "")
-    }
-}
 
 //@Composable
 //fun Greeting(name: String, modifier: Modifier = Modifier) {

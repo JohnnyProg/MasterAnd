@@ -63,6 +63,7 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.5")
+    implementation(libs.androidx.animation.core.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

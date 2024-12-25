@@ -2,10 +2,6 @@ package com.example.mindand.presentation.mainScreen
 
 import android.net.Uri
 import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -27,12 +23,17 @@ import androidx.navigation.NavHostController
 import com.example.mindand.AppViewModelProvider
 import com.example.mindand.Screen
 import com.example.mindand.presentation.mainScreen.components.ProfileImageWithPicker
+import kotlinx.coroutines.launch
 
 @Composable
 fun StartScreen(
     navController: NavHostController,
-    viewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
+    LaunchedEffect(Unit) {
+        // You can call the suspend function to get the data (if not already done in the ViewModel)
+        viewModel.getAllPlayers()
+    }
 
     var numOfColors by rememberSaveable { mutableStateOf("") }
     var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
@@ -85,8 +86,8 @@ fun StartScreen(
             label = { Text("Enter Email") }
         )
         OutlinedTextField(
-            value = numOfColors,
-            onValueChange = { numOfColors = it },
+            value = viewModel.numberOfColors.value,
+            onValueChange = { viewModel.numberOfColors.value = it },
             label = { Text("Enter number of colors") }
         )
 
@@ -96,13 +97,21 @@ fun StartScreen(
         //TODO Obrazek zle sie przesyla
         Button(
             onClick = {
-                if (viewModel.name.value.isNotEmpty() && imageUri != null) {
-                    val encoded = Uri.encode(imageUri.toString())
-                    navController.navigate(Screen.GameScreen.path)
+                if (viewModel.name.value.isNotEmpty()) {
+                    coroutineScope.launch {
+                        viewModel.savePlayer()
+                        navController.navigate(Screen.GameScreen.path + "/${viewModel.playerId.value.toLong()}" + "/${viewModel.numberOfColors.value.toLong()}")
+                    }
                 }
             }
         ) {
             Text("Next")
         }
+
+        Button(onClick = {
+            coroutineScope.launch {
+                viewModel.clearAllData()
+            }
+        }) { Text("Delete all users and all scores")}
     }
 }

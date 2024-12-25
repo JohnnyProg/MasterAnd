@@ -15,5 +15,8 @@ data class Player(
 data class PlayerWithScore(
     val scoreId: Long,
     val playerId: Long,
+    val name: String,
+    val email: String,
+    val score: Int
     //dodać niezbędne pola...
 )

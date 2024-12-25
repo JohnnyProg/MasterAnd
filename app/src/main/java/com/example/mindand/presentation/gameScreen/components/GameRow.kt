@@ -42,7 +42,7 @@ fun GameRow(
         targetValue = if (moved) {
             IntOffset.Zero
         } else {
-            IntOffset(0, -1000)
+            IntOffset(-10000, 0)
         },
         label = "offset",
         animationSpec = tween(

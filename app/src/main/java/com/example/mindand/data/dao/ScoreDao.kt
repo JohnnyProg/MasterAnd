@@ -5,24 +5,22 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mindand.data.entity.Player
+import com.example.mindand.data.entity.Score
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PlayerDao {
+interface ScoreDao {
     //jeżeli zwraca Long to jest to id nowego obiektu
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(player: Player) : Long
+    suspend fun insert(score: Score) : Long
     //są też adnotacje @Delete, @Update...
     //metoda, która zwraca Flow nie musi być wstrzymująca
-    @Query("SELECT * from players WHERE playerId = :playerId")
-    fun getPlayerStream(playerId: Long): Flow<Player>
+    @Query("SELECT * from scores WHERE playerId = :playerId")
+    fun getPlayerScoresStream(playerId: Int): Flow<List<Score>>
     //metoda, która nie zwraca Flow musi być wstrzymująca
-    @Query("SELECT * from players WHERE email = :email")
-    suspend fun getPlayersByEmail(email: String): List<Player>
+    @Query("SELECT * from scores ORDER BY score ASC")
+    suspend fun getScoresSorted(): List<Score>
 
-    @Query("SELECT * from players")
-    fun getAllPlayersStream(): Flow<List<Player>>
-
-    @Query("DELETE FROM players")
-    suspend fun deleteAllPlayers(): Unit
+    @Query("DELETE FROM scores")
+    suspend fun deleteAllScores(): Unit
 }

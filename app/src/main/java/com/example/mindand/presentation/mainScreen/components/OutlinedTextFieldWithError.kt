@@ -1,4 +1,4 @@
-package com.example.mindand
+package com.example.mindand.presentation.mainScreen.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
