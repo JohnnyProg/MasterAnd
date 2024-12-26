@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.mindand.AppViewModelProvider
 import com.example.mindand.Screen
 import com.example.mindand.data.entity.PlayerWithScore
 
@@ -23,7 +23,7 @@ import com.example.mindand.data.entity.PlayerWithScore
 @Composable
 fun ScoreScreen(
     navController: NavHostController,
-    viewModel: ScoreViewModel = viewModel(factory = AppViewModelProvider.Factory)
+    viewModel: ScoreViewModel = hiltViewModel<ScoreViewModel>()
 ) {
     // Ensure data is loaded first (this can be handled in init block or LaunchedEffect)
     LaunchedEffect(Unit) {

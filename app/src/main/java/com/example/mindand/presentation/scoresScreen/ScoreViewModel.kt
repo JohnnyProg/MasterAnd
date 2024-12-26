@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.example.mindand.data.entity.PlayerWithScore
 import com.example.mindand.data.entity.Score
 import com.example.mindand.data.repository.ScoreRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ScoreViewModel(private val scoreRepository: ScoreRepository): ViewModel() {
+@HiltViewModel
+class ScoreViewModel @Inject constructor(private val scoreRepository: ScoreRepository): ViewModel() {
 
     val scores =  mutableStateListOf<Score>();
     val playersWithScores = mutableStateListOf<PlayerWithScore>()

@@ -5,8 +5,9 @@ import com.example.mindand.data.dao.ScoreDao
 import com.example.mindand.data.entity.PlayerWithScore
 import com.example.mindand.data.entity.Score
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class ScoreRepositoryImpl(private val scoreDao: ScoreDao, private val playerScoreDao: PlayerScoreDao) : ScoreRepository {
+class ScoreRepositoryImpl @Inject constructor(private val scoreDao: ScoreDao, private val playerScoreDao: PlayerScoreDao) : ScoreRepository {
     override fun getPlayerScoresStream(id: Int): Flow<List<Score>> =
         scoreDao.getPlayerScoresStream(id)
 

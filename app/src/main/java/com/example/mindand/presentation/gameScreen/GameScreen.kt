@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.mindand.AppViewModelProvider
 import com.example.mindand.presentation.gameScreen.components.GameRow
 
 import com.example.mindand.Screen
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun GameScreen(navController: NavHostController,
                numberOfColors: Long,
-               viewModel: GameViewModel = viewModel(factory = AppViewModelProvider.Factory),
+               viewModel: GameViewModel = hiltViewModel<GameViewModel>(),
                playerId: Long
 ) {
     val coroutineScope = rememberCoroutineScope()

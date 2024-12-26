@@ -18,9 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.mindand.AppViewModelProvider
 import com.example.mindand.Screen
 import com.example.mindand.presentation.mainScreen.components.ProfileImageWithPicker
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun StartScreen(
     navController: NavHostController,
-    viewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory),
+    viewModel: StartViewModel = hiltViewModel<StartViewModel>(),
 ) {
     LaunchedEffect(Unit) {
         // You can call the suspend function to get the data (if not already done in the ViewModel)

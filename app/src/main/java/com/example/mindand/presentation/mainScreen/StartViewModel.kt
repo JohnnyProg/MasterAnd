@@ -6,9 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.mindand.data.entity.Player
 import com.example.mindand.data.repository.PlayersRepository
 import com.example.mindand.data.repository.ScoreRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class StartViewModel(private val playersRepository: PlayersRepository, private val scoresRepository: ScoreRepository) : ViewModel() {
+@HiltViewModel
+class StartViewModel @Inject constructor(private val playersRepository: PlayersRepository, private val scoresRepository: ScoreRepository) : ViewModel() {
     val playerId = mutableStateOf(0L)
     val name = mutableStateOf("")
     val email = mutableStateOf("")

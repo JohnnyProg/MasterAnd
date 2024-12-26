@@ -11,9 +11,12 @@ import com.example.mindand.data.entity.Score
 import com.example.mindand.data.repository.PlayersRepository
 import com.example.mindand.data.repository.ScoreRepository
 import com.example.mindand.presentation.gameScreen.utils.selectRandomColors
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class GameViewModel(private val scoreRepository: ScoreRepository, private val playersRepository: PlayersRepository): ViewModel() {
+@HiltViewModel
+class GameViewModel @Inject constructor(private val scoreRepository: ScoreRepository, private val playersRepository: PlayersRepository): ViewModel() {
 
     val selectedColors = mutableStateListOf<Color>(Color.Gray, Color.Gray, Color.Gray, Color.Gray)
     val attempts = mutableStateListOf<List<Color>>()
